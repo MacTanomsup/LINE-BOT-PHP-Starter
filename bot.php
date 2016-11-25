@@ -18,11 +18,21 @@ if (!is_null($events['events'])) {
 
 			$userId = $event['source']['userId'];
 
-			// Build message to reply back
-			$messages = [
-				'type' => 'text',
-				'text' => $text.":".$userId
-			];
+			switch ($text) {
+				case 'ฉันชื่ออะไร':
+					$messages = [
+						'type' => 'text',
+						'text' =>  'เธอชื่อแม๊ก สุดน่ารักไง'
+					];
+					break;
+				default:
+					$messages = [
+						'type' => 'text',
+						'text' =>  'ไม่เข้าใจว่าเธอพูดอะไร'
+					];
+					break;
+			}
+
 
 			// Make a POST Request to Messaging API to reply to sender
 			$url = 'https://api.line.me/v2/bot/message/reply';
