@@ -16,7 +16,7 @@ if (!is_null($events['events'])) {
 			// Get replyToken
 			$replyToken = $event['replyToken'];
 
-			$userId = $events['source']['userId'];
+			$userId = $event['source']['userId'];
 
 			// Build message to reply back
 			$messages = [
