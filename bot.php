@@ -23,7 +23,7 @@ if (!is_null($events['events'])) {
 			$replyToken = $event['replyToken'];
 
 			$userId = $event['source']['userId'];
-			$timestamp = $event[timestamp];
+			$timestamp = $event['timestamp'];
 
 			switch ($text) {
 				case 'ฉันชื่ออะไร':
@@ -38,10 +38,17 @@ if (!is_null($events['events'])) {
 							'text' =>  'สมัครการแจ้งเตือนเรียบร้อยแล้ว หลังจากนี้คุณจะได้รับการแจ้งเตือนจากเรา'
 						];
 
+						$mid = [
+							'mid' => $userId,
+							'messages' => $timestamp,
+						];
+
+						$mid_encoded = json_encode($mid);
+
 						$ch = curl_init();
 						curl_setopt($ch, CURLOPT_URL, "https://highways-d9944.firebaseio.com/line/mid.json?auth=2ZQWVxyzKyTVcPZJNOE5IdPn5ZI7DyTQNfVyZikS");
 						curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-						curl_setopt($ch, CURLOPT_POSTFIELDS, "{\n  \"mid\": $userId,\n  \"timestamp\": $timestamp\n}");
+						curl_setopt($ch, CURLOPT_POSTFIELDS, $mid_encoded);
 						curl_setopt($ch, CURLOPT_POST, 1);
 
 						$result = curl_exec($ch);
