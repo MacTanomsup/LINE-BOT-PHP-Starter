@@ -1,4 +1,9 @@
 <?php
+const DEFAULT_URL = 'https://kidsplace.firebaseio.com/';
+const DEFAULT_TOKEN = '2ZQWVxyzKyTVcPZJNOE5IdPn5ZI7DyTQNfVyZikS';
+const DEFAULT_PATH = '/firebase/example';
+
+$firebase = new \Firebase\FirebaseLib(DEFAULT_URL, DEFAULT_TOKEN);
 $access_token = 'yjk8NS5XKcuVuv3OL6rKoGGbsQ/lbrMflQcFRk4u1fzHBL2umyUeDEQqupHzp33ac3tZlrdP9/ci+8PODxkxt1gda+3qeiTjtX2TjY08s4xLTu55w9/YvXOvkSlbqb7Jh//fkpLl1AUBoBTV5CkdGQdB04t89/1O/w1cDnyilFU=';
 
 // Get POST body content
@@ -31,6 +36,20 @@ if (!is_null($events['events'])) {
 							'type' => 'text',
 							'text' =>  'สมัครการแจ้งเตือนเรียบร้อยแล้ว หลังจากนี้คุณจะได้รับการแจ้งเตือนจากเรา'
 						];
+						// --- storing an array ---
+						$test = array(
+						    "foo" => "bar",
+						    "i_love" => "lamp",
+						    "id" => 42
+						);
+						$dateTime = new DateTime();
+						$firebase->set(DEFAULT_PATH . '/' . $dateTime->format('c'), $test);
+
+						// --- storing a string ---
+						$firebase->set(DEFAULT_PATH . '/name/contact001', "John Doe");
+
+						// --- reading the stored string ---
+						$name = $firebase->get(DEFAULT_PATH . '/name/contact001');
 						break;
 				default:
 					$messages = [
