@@ -40,7 +40,7 @@ if (!is_null($events['events'])) {
 
 						$mid = [
 							'mid' => $userId,
-							'messages' => $timestamp,
+							'timestamp' => $timestamp,
 						];
 
 						$mid_encoded = json_encode($mid);
