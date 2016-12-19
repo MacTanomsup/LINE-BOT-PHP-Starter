@@ -1,5 +1,5 @@
 <?php
-const DEFAULT_URL = 'https://kidsplace.firebaseio.com/';
+const DEFAULT_URL = 'https://highways-d9944.firebaseio.com/';
 const DEFAULT_TOKEN = '2ZQWVxyzKyTVcPZJNOE5IdPn5ZI7DyTQNfVyZikS';
 const DEFAULT_PATH = '/firebase/example';
 
