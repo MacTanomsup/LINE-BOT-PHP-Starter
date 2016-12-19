@@ -23,6 +23,7 @@ if (!is_null($events['events'])) {
 			$replyToken = $event['replyToken'];
 
 			$userId = $event['source']['userId'];
+			$timestamp = $event[timestamp];
 
 			switch ($text) {
 				case 'ฉันชื่ออะไร':
@@ -36,11 +37,11 @@ if (!is_null($events['events'])) {
 							'type' => 'text',
 							'text' =>  'สมัครการแจ้งเตือนเรียบร้อยแล้ว หลังจากนี้คุณจะได้รับการแจ้งเตือนจากเรา'
 						];
-						$ch = curl_init();
 
-						curl_setopt($ch, CURLOPT_URL, "https://highways-d9944.firebaseio.com/rest/saving-data/fireblog/posts.json");
+						$ch = curl_init();
+						curl_setopt($ch, CURLOPT_URL, "https://highways-d9944.firebaseio.com/line/mid.json?auth=2ZQWVxyzKyTVcPZJNOE5IdPn5ZI7DyTQNfVyZikS");
 						curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-						curl_setopt($ch, CURLOPT_POSTFIELDS, "{\n  \"author\": \"alanisawesome\",\n  \"title\": \"The Turing Machine\"\n}");
+						curl_setopt($ch, CURLOPT_POSTFIELDS, "{\n  \"mid\": $userId,\n  \"timestamp\": $timestamp\n}");
 						curl_setopt($ch, CURLOPT_POST, 1);
 
 						$result = curl_exec($ch);
