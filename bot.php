@@ -4,24 +4,6 @@ $access_token = 'yjk8NS5XKcuVuv3OL6rKoGGbsQ/lbrMflQcFRk4u1fzHBL2umyUeDEQqupHzp33
 // Get POST body content
 $content = file_get_contents('php://input');
 
-
-	 $to = "nathapol_t@kkumail.com";
-	 $subject = "From WebHook Line";
-
-	 $message = $content;
-
-	 $header = "From:mactanomsup@gmail.com \r\n";
-	 $header .= "MIME-Version: 1.0\r\n";
-	 $header .= "Content-type: text/html\r\n";
-
-	 $retval = mail ($to,$subject,$message,$header);
-
-	 if( $retval == true ) {
-			echo "Message sent successfully...";
-	 }else {
-			echo "Message could not be sent...";
-	 }
-
 // Parse JSON
 $events = json_decode($content, true);
 // Validate parsed JSON data
@@ -44,6 +26,12 @@ if (!is_null($events['events'])) {
 						'text' =>  'เธอชื่อแม๊ก สุดน่ารักไง'
 					];
 					break;
+					case 'สมัครการแจ้งเตือน':
+						$messages = [
+							'type' => 'text',
+							'text' =>  'สมัครการแจ้งเตือนเรียบร้อยแล้ว หลังจากนี้คุณจะได้รับการแจ้งเตือนจากเรา'
+						];
+						break;
 				default:
 					$messages = [
 						'type' => 'text',
