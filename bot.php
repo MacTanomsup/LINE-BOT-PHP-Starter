@@ -8,7 +8,7 @@ $access_token = 'yjk8NS5XKcuVuv3OL6rKoGGbsQ/lbrMflQcFRk4u1fzHBL2umyUeDEQqupHzp33
 
 // Get POST body content
 $content = file_get_contents('php://input');
-
+$MODE = "Development"
 // Parse JSON
 $events = json_decode($content, true);
 // Validate parsed JSON data
@@ -26,12 +26,6 @@ if (!is_null($events['events'])) {
 			$timestamp = $event['timestamp'];
 
 			switch ($text) {
-				case 'ฉันชื่ออะไร':
-					$messages = [
-						'type' => 'text',
-						'text' =>  'เธอชื่อแม๊ก สุดน่ารักไง'
-					];
-					break;
 					case 'สมัครการแจ้งเตือน':
 						$messages = [
 							'type' => 'text',
@@ -46,7 +40,7 @@ if (!is_null($events['events'])) {
 						$mid_encoded = json_encode($mid);
 
 						$ch = curl_init();
-						curl_setopt($ch, CURLOPT_URL, "https://highways-d9944.firebaseio.com/line/mid.json?auth=2ZQWVxyzKyTVcPZJNOE5IdPn5ZI7DyTQNfVyZikS");
+						curl_setopt($ch, CURLOPT_URL, "https://highways-d9944.firebaseio.com/ " . $MODE . "/line/mid.json?auth=2ZQWVxyzKyTVcPZJNOE5IdPn5ZI7DyTQNfVyZikS");
 						curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 						curl_setopt($ch, CURLOPT_POSTFIELDS, $mid_encoded);
 						curl_setopt($ch, CURLOPT_POST, 1);
@@ -60,7 +54,7 @@ if (!is_null($events['events'])) {
 				default:
 					$messages = [
 						'type' => 'text',
-						'text' =>  'ไม่เข้าใจว่าเธอพูดอะไร'
+						'text' =>  'ขออภัยด้วย ฉันไม่สามารถเข้าใจได้'
 					];
 					break;
 			}
