@@ -38,7 +38,7 @@ if (!is_null($events['events'])) {
 							$mid_encoded = json_encode($mid);
 
 							$ch = curl_init();
-							curl_setopt($ch, CURLOPT_URL, "https://highways-d9944.firebaseio.com/" . $MODE . "/Line.json?auth=2ZQWVxyzKyTVcPZJNOE5IdPn5ZI7DyTQNfVyZikS");
+							curl_setopt($ch, CURLOPT_URL, "https://highways-d9944.firebaseio.com/" . $MODE . "/Line/" . $message_array[1] . ".json?auth=2ZQWVxyzKyTVcPZJNOE5IdPn5ZI7DyTQNfVyZikS");
 							curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 							curl_setopt($ch, CURLOPT_POSTFIELDS, $mid_encoded);
 							curl_setopt($ch, CURLOPT_POST, 1);
