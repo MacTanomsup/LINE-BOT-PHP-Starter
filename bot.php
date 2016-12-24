@@ -20,7 +20,7 @@ if (!is_null($events['events'])) {
 			$userId = $event['source']['userId'];
 			$timestamp = $event['timestamp'];
 
-			$message_array = spilt(" ", $text);
+			$message_array = split(" ", $text);
 
 			switch (count($message_array)) {
 				case 2:
