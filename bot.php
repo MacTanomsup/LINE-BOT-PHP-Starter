@@ -1,11 +1,6 @@
 <?php
-// const DEFAULT_URL = 'https://highways-d9944.firebaseio.com/';
-// const DEFAULT_TOKEN = '2ZQWVxyzKyTVcPZJNOE5IdPn5ZI7DyTQNfVyZikS';
-// const DEFAULT_PATH = '/firebase/example';
-//
-// $firebase = new \Firebase\FirebaseLib(DEFAULT_URL, DEFAULT_TOKEN);
-$access_token = 'yjk8NS5XKcuVuv3OL6rKoGGbsQ/lbrMflQcFRk4u1fzHBL2umyUeDEQqupHzp33ac3tZlrdP9/ci+8PODxkxt1gda+3qeiTjtX2TjY08s4xLTu55w9/YvXOvkSlbqb7Jh//fkpLl1AUBoBTV5CkdGQdB04t89/1O/w1cDnyilFU=';
 
+$access_token = 'yjk8NS5XKcuVuv3OL6rKoGGbsQ/lbrMflQcFRk4u1fzHBL2umyUeDEQqupHzp33ac3tZlrdP9/ci+8PODxkxt1gda+3qeiTjtX2TjY08s4xLTu55w9/YvXOvkSlbqb7Jh//fkpLl1AUBoBTV5CkdGQdB04t89/1O/w1cDnyilFU=';
 // Get POST body content
 $content = file_get_contents('php://input');
 $MODE = "Development";
@@ -25,39 +20,75 @@ if (!is_null($events['events'])) {
 			$userId = $event['source']['userId'];
 			$timestamp = $event['timestamp'];
 
-			switch ($text) {
-					case 'สมัครการแจ้งเตือน':
+			$message_array = spilt(" ", $text);
+
+			switch (count($message_array)) {
+				case 2:
+							$messages = [
+								'type' => 'text',
+								'text' =>  'สมัครการแจ้งเตือนเรียบร้อยแล้ว หลังจากนี้คุณจะได้รับการแจ้งเตือนจากเรา'
+							];
+
+							$mid = [
+									'Office_ID' => $message_array[1],
+									'Line_UID' => $userId,
+									'TimeAdded' => $timestamp,
+							];
+
+							$mid_encoded = json_encode($mid);
+
+							$ch = curl_init();
+							curl_setopt($ch, CURLOPT_URL, "https://highways-d9944.firebaseio.com/" . $MODE . "/Line.json?auth=2ZQWVxyzKyTVcPZJNOE5IdPn5ZI7DyTQNfVyZikS");
+							curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+							curl_setopt($ch, CURLOPT_POSTFIELDS, $mid_encoded);
+							curl_setopt($ch, CURLOPT_POST, 1);
+
+							$result = curl_exec($ch);
+							if (curl_errno($ch)) {
+								  echo 'Error:' . curl_error($ch);
+							}
+							curl_close ($ch);
+							break;
+				default:
 						$messages = [
 							'type' => 'text',
-							'text' =>  'สมัครการแจ้งเตือนเรียบร้อยแล้ว หลังจากนี้คุณจะได้รับการแจ้งเตือนจากเรา'
+							'text' =>  'ขออภัยด้วย ฉันไม่เข้าใจ'
 						];
-
-						$mid = [
-							'mid' => $userId,
-							'timestamp' => $timestamp,
-						];
-
-						$mid_encoded = json_encode($mid);
-
-						$ch = curl_init();
-						curl_setopt($ch, CURLOPT_URL, "https://highways-d9944.firebaseio.com/" . $MODE . "/line/mid.json?auth=2ZQWVxyzKyTVcPZJNOE5IdPn5ZI7DyTQNfVyZikS");
-						curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-						curl_setopt($ch, CURLOPT_POSTFIELDS, $mid_encoded);
-						curl_setopt($ch, CURLOPT_POST, 1);
-
-						$result = curl_exec($ch);
-						if (curl_errno($ch)) {
-						    echo 'Error:' . curl_error($ch);
-						}
-						curl_close ($ch);
 						break;
-				default:
-					$messages = [
-						'type' => 'text',
-						'text' =>  'ขออภัยด้วย ฉันไม่สามารถเข้าใจได้'
-					];
-					break;
 			}
+			// switch ($text) {
+			// 		case 'สมัครการแจ้งเตือน':
+			// 			$messages = [
+			// 				'type' => 'text',
+			// 				'text' =>  'สมัครการแจ้งเตือนเรียบร้อยแล้ว หลังจากนี้คุณจะได้รับการแจ้งเตือนจากเรา'
+			// 			];
+			//
+			// 			$mid = [
+			// 				'mid' => $userId,
+			// 				'timestamp' => $timestamp,
+			// 			];
+			//
+			// 			$mid_encoded = json_encode($mid);
+			//
+			// 			$ch = curl_init();
+			// 			curl_setopt($ch, CURLOPT_URL, "https://highways-d9944.firebaseio.com/" . $MODE . "/line/mid.json?auth=2ZQWVxyzKyTVcPZJNOE5IdPn5ZI7DyTQNfVyZikS");
+			// 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			// 			curl_setopt($ch, CURLOPT_POSTFIELDS, $mid_encoded);
+			// 			curl_setopt($ch, CURLOPT_POST, 1);
+			//
+			// 			$result = curl_exec($ch);
+			// 			if (curl_errno($ch)) {
+			// 			    echo 'Error:' . curl_error($ch);
+			// 			}
+			// 			curl_close ($ch);
+			// 			break;
+			// 	default:
+			// 		$messages = [
+			// 			'type' => 'text',
+			// 			'text' =>  'ขออภัยด้วย ฉันไม่สามารถเข้าใจได้'
+			// 		];
+			// 		break;
+			// }
 
 
 			// Make a POST Request to Messaging API to reply to sender
