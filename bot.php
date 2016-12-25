@@ -36,7 +36,7 @@ if (!is_null($events['events'])) {
 
 			$return = json_decode($result, true);
 
-			if(is_null($result) || is_null($result)) {
+			if(is_null($result) || is_null($return)) {
 				$messages = [
 					'type' => 'text',
 					'text' =>  'ขออภัยด้วย ไม่มีสำนักงานแห่งนี้ กรุณาตรวจใหม่อีกครั้ง'
