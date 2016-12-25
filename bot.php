@@ -33,46 +33,36 @@ if (!is_null($events['events'])) {
 			}
 			curl_close ($ch);
 
-			$isOkay;
 			if(isset($result)) {
-				$isOkay = true;
+				$messages = [
+					'type' => 'text',
+					'text' =>  'สมัครการแจ้งเตือนเรียบร้อยแล้ว หลังจากนี้คุณจะได้รับการแจ้งเตือนจากเรา'
+				];
+
+				$mid = [
+						'Office_ID' => $message_array[1],
+						'Line_UID' => $userId,
+						'TimeAdded' => $timestamp,
+				];
+
+				$mid_encoded = json_encode($mid);
+
+				$ch = curl_init();
+				curl_setopt($ch, CURLOPT_URL, "https://highways-d9944.firebaseio.com/" . $MODE . "/Line/" . $text . ".json?auth=2ZQWVxyzKyTVcPZJNOE5IdPn5ZI7DyTQNfVyZikS");
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+				curl_setopt($ch, CURLOPT_POSTFIELDS, $mid_encoded);
+				curl_setopt($ch, CURLOPT_POST, 1);
+
+				$result = curl_exec($ch);
+				if (curl_errno($ch)) {
+						echo 'Error:' . curl_error($ch);
+				}
+				curl_close ($ch);
 			} else {
-				$isOkay = false;
-			}
-
-			switch ($isOkay) {
-				case true:
-							$messages = [
-								'type' => 'text',
-								'text' =>  'สมัครการแจ้งเตือนเรียบร้อยแล้ว หลังจากนี้คุณจะได้รับการแจ้งเตือนจากเรา'
-							];
-
-							$mid = [
-									'Office_ID' => $message_array[1],
-									'Line_UID' => $userId,
-									'TimeAdded' => $timestamp,
-							];
-
-							$mid_encoded = json_encode($mid);
-
-							$ch = curl_init();
-							curl_setopt($ch, CURLOPT_URL, "https://highways-d9944.firebaseio.com/" . $MODE . "/Line/" . $message_array[1] . ".json?auth=2ZQWVxyzKyTVcPZJNOE5IdPn5ZI7DyTQNfVyZikS");
-							curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-							curl_setopt($ch, CURLOPT_POSTFIELDS, $mid_encoded);
-							curl_setopt($ch, CURLOPT_POST, 1);
-
-							$result = curl_exec($ch);
-							if (curl_errno($ch)) {
-								  echo 'Error:' . curl_error($ch);
-							}
-							curl_close ($ch);
-							break;
-				default:
-						$messages = [
-							'type' => 'text',
-							'text' =>  'ขออภัยด้วย ไม่มีสำนักงานแห่งนี้'
-						];
-						break;
+				$messages = [
+					'type' => 'text',
+					'text' =>  'ขออภัยด้วย ไม่มีสำนักงานแห่งนี้'
+				];
 			}
 
 			// Make a POST Request to Messaging API to reply to sender
