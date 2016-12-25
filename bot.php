@@ -34,7 +34,9 @@ if (!is_null($events['events'])) {
 			}
 			curl_close ($ch);
 
-			if(json_decode($result, true) === null) {
+			$return = json_decode($result, true);
+
+			if(empty($return['OfficeName'])) {
 				$messages = [
 					'type' => 'text',
 					'text' =>  'ขออภัยด้วย ไม่มีสำนักงานแห่งนี้'
@@ -42,11 +44,11 @@ if (!is_null($events['events'])) {
 			} else {
 				$messages = [
 					'type' => 'text',
-					'text' =>  'สมัครการแจ้งเตือนเรียบร้อยแล้ว'. print_r($result, true) .' หลังจากนี้คุณจะได้รับการแจ้งเตือนจากเรา'
+					'text' =>  'สมัครการแจ้งเตือนเรียบร้อยแล้ว'. $return['OfficeName'].' หลังจากนี้คุณจะได้รับการแจ้งเตือนจากเรา'
 				];
 
 				$mid = [
-						'Office_ID' => $message_array[1],
+						'Office_ID' => $text,
 						'Line_UID' => $userId,
 						'TimeAdded' => $timestamp,
 				];
