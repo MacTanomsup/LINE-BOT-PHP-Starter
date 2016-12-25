@@ -36,10 +36,10 @@ if (!is_null($events['events'])) {
 
 			$return = json_decode($result, true);
 
-			if(empty($return['OfficeName'])) {
+			if(is_null($result) || is_null($result)) {
 				$messages = [
 					'type' => 'text',
-					'text' =>  'ขออภัยด้วย ไม่มีสำนักงานแห่งนี้'
+					'text' =>  'ขออภัยด้วย ไม่มีสำนักงานแห่งนี้ กรุณาตรวจใหม่อีกครั้ง'
 				];
 			} else {
 				$messages = [
