@@ -33,7 +33,7 @@ if (!is_null($events['events'])) {
 			}
 			curl_close ($ch);
 
-			if($result === {}) {
+			if($result === "{}") {
 				$messages = [
 					'type' => 'text',
 					'text' =>  'ขออภัยด้วย ไม่มีสำนักงานแห่งนี้'
