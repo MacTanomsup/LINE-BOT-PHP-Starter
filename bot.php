@@ -14,6 +14,7 @@ if (!is_null($events['events'])) {
 		if ($event['type'] == 'message' && $event['message']['type'] == 'text') {
 			// Get text sent
 			$text = $event['message']['text'];
+			$text = strtoupper($text);
 			// Get replyToken
 			$replyToken = $event['replyToken'];
 
@@ -33,7 +34,7 @@ if (!is_null($events['events'])) {
 			}
 			curl_close ($ch);
 
-			if($result === "{}") {
+			if(json_decode($result, true) === null) {
 				$messages = [
 					'type' => 'text',
 					'text' =>  'ขออภัยด้วย ไม่มีสำนักงานแห่งนี้'
