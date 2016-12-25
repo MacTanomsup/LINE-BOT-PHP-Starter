@@ -33,7 +33,12 @@ if (!is_null($events['events'])) {
 			}
 			curl_close ($ch);
 
-			if(isset($result)) {
+			if(!$result || strlen(trim($result)) == 0) {
+				$messages = [
+					'type' => 'text',
+					'text' =>  'ขออภัยด้วย ไม่มีสำนักงานแห่งนี้'
+				];
+			} else {
 				$messages = [
 					'type' => 'text',
 					'text' =>  'สมัครการแจ้งเตือนเรียบร้อยแล้ว หลังจากนี้คุณจะได้รับการแจ้งเตือนจากเรา'
@@ -58,11 +63,6 @@ if (!is_null($events['events'])) {
 						echo 'Error:' . curl_error($ch);
 				}
 				curl_close ($ch);
-			} else {
-				$messages = [
-					'type' => 'text',
-					'text' =>  'ขออภัยด้วย ไม่มีสำนักงานแห่งนี้'
-				];
 			}
 
 			// Make a POST Request to Messaging API to reply to sender
