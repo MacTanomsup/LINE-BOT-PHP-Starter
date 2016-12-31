@@ -36,7 +36,7 @@ if (!is_null($events['events'])) {
 
 			$return = json_decode($result, true);
 
-			if(empty($return)) {
+			if(empty($return) || sizeof($message_array) != 1) {
 				$messages = [
 					'type' => 'text',
 					'text' =>  'ขออภัยด้วย ไม่พบรหัสสำนักงานนี้ กรุณาตรวจสอบใหม่อีกครั้ง'
